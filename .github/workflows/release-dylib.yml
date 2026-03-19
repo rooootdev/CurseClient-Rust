@@ -26,7 +26,7 @@ jobs:
           cargo build --release --target aarch64-apple-ios --lib
           cp target/aarch64-apple-ios/release/libcurseclient_rust.dylib libcurseclient.dylib
           codesign --remove-signature libcurseclient.dylib || true
-          codesign -s - libcurseclient.dylib
+          codesign --force --sign - --timestamp=none libcurseclient.dylib
 
       - name: ensure latest release exists
         env:
