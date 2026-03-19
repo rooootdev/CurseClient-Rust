@@ -3,7 +3,7 @@ import Foundation
 public final class CurseClient {
     public init() {}
 
-    public func getModsList(query: String) -> String? {
+    public func getmodslist(query: String) -> String? {
         return withCString(query) { cQuery in
             guard let raw = cc_getmodslistjson(cQuery) else { return nil }
             let result = String(cString: raw)
@@ -12,7 +12,7 @@ public final class CurseClient {
         }
     }
 
-    public func getModFiles(dllink: String) -> String? {
+    public func getmodfiles(dllink: String) -> String? {
         return withCString(dllink) { cLink in
             guard let raw = cc_getmodfilesjson(cLink) else { return nil }
             let result = String(cString: raw)

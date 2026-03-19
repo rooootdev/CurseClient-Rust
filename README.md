@@ -24,8 +24,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 For iOS:
 ```swift
 let client = CurseClient()
-let modsJson = client.getModsList(query: "sodium")
-let filesJson = client.getModFiles(dllink: "https://www.curseforge.com/minecraft/mc-mods/.../files/123456")
+let modsjson = client.getmodslist(query: "sodium")
+let filesjson = client.getmodfiles(dllink: "https://www.curseforge.com/minecraft/mc-mods/.../files/123456")
 ```
 
 CLI (interactive example):
