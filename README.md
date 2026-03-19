@@ -1,2 +1,37 @@
 # CurseClient-Rust
-Open-source keyless API client for CurseForge (ported to rust)
+Rust port of CurseClient, a keyless client for CurseForge.
+Originally by [ObjectiveMoon](https://github.com/ObjectiveMoonmc)
+
+## Usage
+Library:
+```rust
+use curseclient_rust::{getmodfiles, getmodslist};
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let mods = getmodslist("sodium").await?;
+    println!("found {} mods", mods.len());
+
+    if let Some(first) = mods.first() {
+        let files = getmodfiles(&first.dllink).await?;
+        println!("{} files", files.len());
+    }
+
+    Ok(())
+}
+```
+
+For iOS:
+```swift
+let client = CurseClient()
+let modsJson = client.getModsList(query: "sodium")
+let filesJson = client.getModFiles(dllink: "https://www.curseforge.com/minecraft/mc-mods/.../files/123456")
+```
+
+CLI (interactive example):
+```bash
+cargo run
+```
+
+## Build
+GitHub Actions builds on every push and uploads `libcurseclient.dylib` to the `latest` release.

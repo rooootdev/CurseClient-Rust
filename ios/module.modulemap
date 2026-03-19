@@ -1,0 +1,4 @@
+module curseclient_rust {
+  header "curseclient_rust.h"
+  export *
+}

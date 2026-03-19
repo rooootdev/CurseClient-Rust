@@ -1,0 +1,39 @@
+name: build ios
+
+on:
+  push:
+    branches:
+      - "**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    runs-on: macos-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: install rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-ios
+
+      - name: build dylib
+        run: |
+          cargo build --release --target aarch64-apple-ios --lib
+          cp target/aarch64-apple-ios/release/libcurseclient_rust.dylib libcurseclient.dylib
+
+      - name: ensure latest release exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release view latest >/dev/null 2>&1 || gh release create latest -t latest -n "Latest build"
+
+      - name: upload dylib to latest release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload latest libcurseclient.dylib --clobber
